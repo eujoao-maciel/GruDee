@@ -1,0 +1,12 @@
+# dependências
+node_modules/
+
+# variáveis de ambiente
+.env
+
+# builds e artefatos
+dist/
+public/images/
+
+# IDE/editor
+.vscode/
