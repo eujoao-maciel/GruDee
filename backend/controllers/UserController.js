@@ -13,7 +13,7 @@ const jwtSecret = process.env.MYSECRET
 // VALIDATIONS
 import validation from "../middlewares/validationsValues.js"
 
-// function to generate token
+// helper: generate JWT
 const generateToken = id => {
   return jwt.sign({ id }, jwtSecret, {
     expiresIn: "7d"
@@ -24,7 +24,7 @@ const generateToken = id => {
 export const create = async (req, res) => {
   const { name, email, password, confirmpassword } = req.body
 
-  // validations
+  // required fields validation
   const values = [name, email, password, confirmpassword]
   const msgErros = [
     "O nome é obrigatório.",
@@ -35,7 +35,7 @@ export const create = async (req, res) => {
 
   msgErros.map((msg, index) => validation(values[index], msgErros[index], res))
 
-  // check password and confirmpassword
+  // password confirmation
   if (password !== confirmpassword) {
     res.status(400).json({ message: "As senhas não conferem." })
     return
@@ -49,7 +49,7 @@ export const create = async (req, res) => {
     return
   }
 
-  // create a password hash
+  // hash password
   const salt = await bcrypt.genSalt(12)
   const passwordHash = await bcrypt.hash(password, salt)
 
@@ -73,18 +73,22 @@ export const create = async (req, res) => {
 export const login = async (req, res) => {
   const { email, password } = req.body
 
-  // validations
   validation(email, "O e-mail é obrigatório.", res)
   validation(password, "A senha é obrigatória.", res)
 
-  // check if passwords match
   const user = await User.findOne({ email: email })
+
+  //
+
+  if (!user) {
+    res.status(404).json({ message: "Usuário não encontrado" })
+  }
 
   const match = await bcrypt.compare(password, user.password)
 
   if (!match) return res.status(401).json({ message: "Senha inválida." })
 
-  // return user
+  //
 
   res.status(200).json({
     token: generateToken(user._id),
@@ -92,12 +96,17 @@ export const login = async (req, res) => {
   })
 }
 
-// get user by id
+// get user by ID (used for profiles, etc.)
 export const getUserById = async (req, res) => {
   const { id } = req.params
 
   try {
     const user = await User.findById(id).select("-password")
+
+    if (!user) {
+      res.status(404).json({ message: "Usuário não encontrado." })
+      return
+    }
 
     res.status(200).json({ user })
   } catch (err) {
@@ -106,7 +115,7 @@ export const getUserById = async (req, res) => {
   }
 }
 
-// update a user
+// update user data
 export const updateUser = async (req, res) => {
   const { name, email, password, confirmpassword, bio } = req.body
 
@@ -163,7 +172,7 @@ export const updateUser = async (req, res) => {
   try {
     await user.save()
 
-    res.status(200).json({ message: `Usuário atualizado com sucesso.` })
+    res.status(200).json({ message: "Usuário atualizado com sucesso." })
   } catch (err) {
     res
       .status(400)
@@ -171,6 +180,7 @@ export const updateUser = async (req, res) => {
   }
 }
 
+// get currently authenticated user
 export const getCurrentUser = async (req, res) => {
   const reqUser = req.user
 
