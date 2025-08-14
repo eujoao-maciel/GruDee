@@ -109,8 +109,3 @@ GruDee/
 
 ---
 
-## Para contribuir / testar
-
-* Abra issues descrevendo bugs ou melhorias.
-
----
