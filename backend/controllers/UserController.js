@@ -37,7 +37,7 @@ export const create = async (req, res) => {
 
   // password confirmation
   if (password !== confirmpassword) {
-    res.status(400).json({ message: "As senhas não conferem." })
+    res.status(400).json({ error: "As senhas não conferem." })
     return
   }
 
@@ -45,7 +45,7 @@ export const create = async (req, res) => {
   const user = await User.findOne({ email: email })
 
   if (user) {
-    res.status(400).json({ message: "Este e-mail já está cadastrado." })
+    res.status(400).json({ error: "Este e-mail já está cadastrado." })
     return
   }
 
@@ -81,18 +81,18 @@ export const login = async (req, res) => {
   //
 
   if (!user) {
-    res.status(404).json({ message: "Usuário não encontrado" })
+    res.status(404).json({ error: "Usuário não encontrado" })
   }
 
   const match = await bcrypt.compare(password, user.password)
 
-  if (!match) return res.status(401).json({ message: "Senha inválida." })
+  if (!match) return res.status(401).json({ error: "Senha inválida." })
 
   //
 
   res.status(200).json({
     token: generateToken(user._id),
-    user: { id: user._id, name: user.name, email: user.email }
+    id: user._id
   })
 }
 
@@ -104,13 +104,13 @@ export const getUserById = async (req, res) => {
     const user = await User.findById(id).select("-password")
 
     if (!user) {
-      res.status(404).json({ message: "Usuário não encontrado." })
+      res.status(404).json({ error: "Usuário não encontrado." })
       return
     }
 
-    res.status(200).json({ user })
+    res.status(200).json(user)
   } catch (err) {
-    res.status(400).json({ message: "Usuário não encontrado." })
+    res.status(400).json({ error: "Usuário não encontrado." })
     return
   }
 }
@@ -128,30 +128,26 @@ export const updateUser = async (req, res) => {
     profileImage = req.file.filename
   }
 
-  // validations
-  validation(name, "O nome é obrigatório.", res)
-  user.name = name
+  if (email) {
+    const userByEmail = await User.find({ email: email })
 
-  validation(email, "O e-mail é obrigatório.", res)
+    if (user.email !== email && userByEmail.length > 0) {
+      res
+        .status(500)
+        .json({ error: "Este e-mail já esta vinculado a uma conta." })
+      return
+    }
 
-  const userByEmail = await User.find({ email: email })
-
-  if (user.email !== email && userByEmail.length > 0) {
-    res
-      .status(500)
-      .json({ message: "Este e-mail já esta vinculado a uma conta." })
-    return
+    user.email = email
   }
 
-  user.email = email
-
   // check if password matchs
-  if (password) {
+  if (password || confirmpassword) {
     validation(password, "A senha é obrigatória.", res)
     validation(confirmpassword, "A confirmação de senha é obrigatória.", res)
 
     if (password !== confirmpassword) {
-      res.status(400).json({ message: "A senhas não são iguais." })
+      res.status(400).json({ error: "A senhas não são iguais." })
       return
     }
 
@@ -159,6 +155,10 @@ export const updateUser = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, salt)
 
     user.password = passwordHash
+  }
+
+  if (name) {
+    user.name = name
   }
 
   if (profileImage) {
@@ -172,11 +172,13 @@ export const updateUser = async (req, res) => {
   try {
     await user.save()
 
-    res.status(200).json({ message: "Usuário atualizado com sucesso." })
+    res
+      .status(200)
+      .json({ user: user, message: "Usuário atualizado com sucesso." })
   } catch (err) {
     res
       .status(400)
-      .json({ err, message: "Houve algum erro, tente novamente mais tarde." })
+      .json({ err, error: "Houve algum erro, tente novamente mais tarde." })
   }
 }
 

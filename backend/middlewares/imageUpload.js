@@ -12,7 +12,7 @@ const imageStorage = multer.diskStorage({
       folder = "photos"
     }
 
-    cb(null, `public/images/${folder}`)
+    cb(null, `images/${folder}`)
   },
   filename: (req, file, cb) => {
     cb(
@@ -27,8 +27,8 @@ const imageStorage = multer.diskStorage({
 const imageUpload = multer({
   storage: imageStorage,
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(png|jpg)$/)) {
-      return cb(new Error("Por favor, envie apenas png ou jpg."))
+    if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) {
+      return cb(new Error("Por favor, apenas png ou jpg."))
     }
     cb(undefined, true)
   }

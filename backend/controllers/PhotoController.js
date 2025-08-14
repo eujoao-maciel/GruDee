@@ -5,20 +5,21 @@ import User from "../models/User.js"
 // list all photos
 export const getAllPhotos = async (req, res) => {
   const photos = await Photo.find()
+    .sort([["createdAt", -1]])
+    .exec()
 
   res.json({ photos })
 }
 
 // upload a new photo
 export const insertPhoto = async (req, res) => {
-  const { title } = req.body
+  const title = req.body.title
   let image
 
   if (req.file) {
     image = req.file.filename
   } else {
-    res.status(400).json({ message: "A imagem é obrigatória." })
-    return
+    return res.status(400).json({ error: "A imagem é obrigatória." })
   }
 
   const userReq = req.user
@@ -26,7 +27,7 @@ export const insertPhoto = async (req, res) => {
 
   // validations
   if (!title) {
-    res.status(400).json({ message: "O título é obrigatório." })
+    res.status(400).json({ error: "O título é obrigatório." })
     return
   }
 
@@ -40,7 +41,7 @@ export const insertPhoto = async (req, res) => {
   if (!newPhoto) {
     res
       .status(500)
-      .json({ message: "Houve um erro, tente novamente mais tarde." })
+      .json({ error: "Houve um erro, tente novamente mais tarde." })
     return
   }
 
@@ -55,24 +56,26 @@ export const getPhotoById = async (req, res) => {
     const photo = await Photo.findById(id)
 
     if (!photo) {
-      res.status(404).json({ message: "Foto não encontrada." })
+      res.status(404).json({ error: "Foto não encontrada." })
       return
     }
 
     res.status(200).json(photo)
   } catch (err) {
-    res.status(404).json({ message: "Foto não encontrada." })
+    res.status(404).json({ error: "Foto não encontrada." })
     return
   }
 }
 
 // return all photos from the logged-in user
 export const getUserPhotos = async (req, res) => {
-  const reqUser = req.user
+  const { id } = req.params
 
-  const userPhotos = await Photo.find({ userId: reqUser._id }, {})
+  const userPhotos = await Photo.find({ userId: id })
+    .sort([["createdAt", -1]])
+    .exec()
 
-  res.status(200).json({ photos: userPhotos })
+  res.status(200).json(userPhotos)
 }
 
 // update photo data (title or image)
@@ -81,11 +84,6 @@ export const updatePhoto = async (req, res) => {
     const { id } = req.params
 
     const { title } = req.body
-    let image
-
-    if (req.file) {
-      image = req.file.filename
-    }
 
     const user = req.user
 
@@ -93,18 +91,12 @@ export const updatePhoto = async (req, res) => {
 
     // authorization: ensure the logged-in user owns the photo
     if (photo.userId.toString() !== user._id.toString()) {
-      res
-        .status(400)
-        .json({ message: "Houve um erro, tente novamente mais tarde." })
+      res.status(400).json({ error: "Foto não encontrada." })
       return
     }
 
     if (title) {
       photo.title = title
-    }
-
-    if (image) {
-      photo.image = image
     }
 
     await photo.save()
@@ -113,7 +105,7 @@ export const updatePhoto = async (req, res) => {
       .status(200)
       .json({ message: "Foto atualizada com sucesso.", photo: photo })
   } catch (err) {
-    res.status(422).json({ message: "Foto não encontrada." })
+    res.status(422).json({ error: "Foto não encontrada." })
     return
   }
 }
@@ -128,7 +120,7 @@ export const likePhoto = async (req, res) => {
     const photo = await Photo.findById(id)
 
     if (photo.likes.includes(user._id)) {
-      res.status(400).json({ message: "Você já curtiu essa foto." })
+      res.status(400).json({ error: "Você já curtiu essa foto." })
       return
     }
 
@@ -159,7 +151,7 @@ export const commentPhoto = async (req, res) => {
 
     // validations
     if (!comment) {
-      res.status(400).json({ message: "O campo de comentário é obrigatório." })
+      res.status(400).json({ error: "O campo de comentário é obrigatório." })
       return
     }
 
@@ -178,7 +170,7 @@ export const commentPhoto = async (req, res) => {
       .status(200)
       .json({ message: "Comentário adicionado com sucesso.", userComment })
   } catch (err) {
-    res.status(400).json({ message: "Foto não encontrada." })
+    res.status(400).json({ error: "Foto não encontrada." })
     return
   }
 }
@@ -206,23 +198,18 @@ export const deletePhoto = async (req, res) => {
 
     const photo = await Photo.findById(id)
 
-    if (!photo) {
-    }
-
     if (photo.userId.toString() !== user._id.toString()) {
       res
         .status(400)
-        .json({ message: "Houve um erro, tente novamente mais tarde." })
+        .json({ error: "Houve um erro, tente novamente mais tarde." })
       return
     }
 
     await Photo.findByIdAndDelete(id)
 
-    res
-      .status(200)
-      .json({ message: "Foto apagada com sucesso.", id: photo._id })
+    res.status(200).json({ id: photo._id })
   } catch (err) {
-    res.status(422).json({ message: "Foto não encontrada." })
+    res.status(422).json({ error: "Foto não encontrada." })
     return
   }
 }

@@ -1,14 +1,23 @@
 import express from "express"
 import cors from "cors"
+import path from "path"
+import { fileURLToPath } from "url"
 
 // ROUTES
 import userRouter from "./routes/UserRoutes.js"
 import photoRouter from "./routes/PhotoRoutes.js"
 
 const app = express()
-const PORT = process.env.PORT || 3000
+const PORT = 3000 || process.env.PORT
 
 app.use(express.json())
+app.use(cors())
+
+// IMAGES DIRECTORY
+const _filename = fileURLToPath(import.meta.url)
+const _dirname = path.dirname(_filename)
+
+app.use("/images", express.static(path.join(_dirname, 'images')))
 
 // ROUTES
 app.use("/users", userRouter)

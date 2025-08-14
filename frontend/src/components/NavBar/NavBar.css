@@ -1,0 +1,49 @@
+/* DESKTOP NAV */
+.desktopnav {
+  width: 100vw;
+  height: 11vh;
+  background-color: #044040;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  text-decoration: none;
+  color: #fff;
+  font-size: 2em;
+  margin-left: 1em;
+  transition: 0.4s;
+}
+
+.nav_links {
+  display: flex;
+  margin-right: 2em;
+  gap: 2em;
+}
+
+.nav_links a {
+  text-decoration: none;
+  font-size: 1.2em;
+  transition: 0.4s;
+}
+
+.nav_links a:hover,
+.title:hover {
+  color: #ffffff77;
+}
+
+/* MOBILE NAV */
+.mobilenav {
+  width: 100vw;
+  height: 11vh;
+  background-color: #044040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobilenav h1 {
+  font-size: 2em;
+  color: #fff;
+}

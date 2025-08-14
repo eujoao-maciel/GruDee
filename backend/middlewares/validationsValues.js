@@ -2,7 +2,7 @@
 const validation = (value, message, res) => {
 
     if (!value) {
-        res.status(400).json({ message: message })
+        res.status(400).json({ error: message })
         return
     }
 

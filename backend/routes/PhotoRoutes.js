@@ -20,7 +20,7 @@ import imageUpload from "../middlewares/imageUpload.js"
 const router = Router()
 router.delete("/delete/:id", checkAuth, deletePhoto)
 router.post("/insertphoto", checkAuth, imageUpload.single("image"), insertPhoto)
-router.get("/userphotos", checkAuth, getUserPhotos)
+router.get("/userphotos/:id", getUserPhotos)
 router.put("/like/:id", checkAuth, likePhoto)
 router.put("/comment/:id", checkAuth, commentPhoto)
 router.get("/search", checkAuth, searchPhotoByTitle)
