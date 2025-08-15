@@ -104,6 +104,17 @@ GruDee/
 │  ├─ images/   # criar manualmente
 │  └─ index.js
 ├─ frontend/  # React + Redux
+│  └─ src/
+│     ├─ components/
+│     ├─ hooks/
+│     ├─ pages/        
+│     ├─ services/
+│     ├─ slices/
+│     ├─ utils/
+│     ├─ App.jsx
+│     ├─ main.jsx
+│     ├─ store.jsx
+│     └─ index.css
 └─ README.md
 ```
 
