@@ -1,0 +1,149 @@
+/* MOBILE PROFILE */
+.mobile_profile {
+  width: 100vw;
+  margin: 1em auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile_profile .profile {
+  position: relative;
+  display: flex;
+  width: 70vw;
+  padding-top: 2em;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  background-color: #1036363a;
+  border-radius: 6px;
+  border: 1px solid #044040;
+}
+
+.mobile_profile .profile .open_dashboard {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  font-size: 22px;
+  color: #000;
+}
+
+.mobile_profile .header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile_profile .header img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 1px solid;
+}
+
+.mobile_profile .header h2 {
+  font-size: 1.4em;
+  font-weight: 500;
+}
+
+.mobile_profile p {
+  font-size: 0.9em;
+}
+
+.mobile_profile .bio_container {
+  border-bottom: 1px solid #000;
+  border-top: 1px solid #000;
+  background-color: #10363650;
+  border-radius: 4px;
+  width: 80%;
+  padding:  0;
+  margin-bottom: 1em;
+}
+
+.mobile_profile .bio_container p {
+  text-align: left;
+  padding: 0 0.4em;
+}
+
+.mobile_profile a {
+  margin-bottom: 1em;
+  padding: 10px 13px;
+}
+
+/* DESKTOP PROFILE */
+.desktop_profile {
+  width: 30vw;
+  margin: 2em auto;
+}
+
+.desktop_profile .profile {
+  position: relative;
+  display: flex;
+  padding: 2em 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  background-color: #1036363a;
+  border-radius: 6px;
+  border: 1px solid #044040;
+}
+
+.desktop_profile .profile .open_dashboard {
+  position: absolute;
+  top: -20px;
+  right: -4px;
+  font-size: 22px;
+  color: #000;
+}
+
+.desktop_profile .header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.desktop_profile .header img {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  border: 1px solid;
+}
+
+.desktop_profile .header h2 {
+  font-size: 1.8em;
+  font-weight: 500;
+}
+
+.desktop_profile p {
+  font-size: 1.2em;
+}
+
+.desktop_profile .bio_container {
+  border-bottom: 1px solid #000;
+  border-top: 1px solid #000;
+  background-color: #10363650;
+  border-radius: 4px;
+  width: 80%;
+  padding: 0.5em 0;
+  margin: 1em;
+}
+
+.desktop_profile .bio_container p {
+  text-align: left;
+  padding: 0 0.4em;
+}
+
+.desktop_profile a {
+  margin-top: 1em;
+  padding: 15px 20px;
+}
+
+@media (max-width: 1330px) {
+  .desktop_profile {
+    width: 60vw;
+  }
+}

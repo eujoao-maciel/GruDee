@@ -1,0 +1,38 @@
+/* MOBILE REGISTER */
+.mobile_register {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.mobile_register h1 {
+  color: #000;
+}
+
+.mobile_register a {
+  color: #000;
+  font-weight: bold;
+}
+
+/* DESKTOP REGISTER */
+
+.desktop_register {
+  width: 37%;
+  margin: 0 auto;
+  margin-top: 4em;
+}
+
+.desktop_register h1 {
+  font-size: 2.4em;
+  margin-bottom: 0.5em;
+}
+
+.desktop_register p {
+  font-size: 1.1em;
+  color: #666363;
+  margin-bottom: 0.6em;
+}
+
+.desktop_register a {
+  color: #000;
+  font-weight: bold;
+}

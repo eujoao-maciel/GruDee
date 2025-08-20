@@ -1,0 +1,39 @@
+/* DESKTOP LOGIN */
+
+.desktop_login {
+  width: 37%;
+  margin: 0 auto;
+  margin-top: 4em;
+}
+
+.desktop_login h1 {
+  font-size: 2.4em;
+  margin-bottom: 0.5em;
+}
+
+.desktop_login p {
+  font-size: 1.1em;
+  color: #666363;
+  margin-bottom: 0.6em;
+}
+
+.desktop_login a {
+  color: #000;
+  font-weight: bold;
+}
+
+/* MOBILE LOGIN */
+
+.mobile_login {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.mobile_login h1 {
+  color: #000;
+}
+
+.mobile_login a {
+  color: #000;
+  font-weight: bold;
+}

@@ -1,0 +1,10 @@
+.title_photo {
+    font-size: 2.4em;
+    font-weight: 300;
+}
+
+.post_image {
+    width: 77%;
+    border-radius: 6px;
+    border: 1px solid #000;
+}

@@ -1,0 +1,58 @@
+/*DESKTOP FOOTER*/
+
+.desktop_footer {
+  width: 100vw;
+  height: 8vh;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #044040;
+  color: #fff;
+}
+
+.desktop_footer p {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+/*MOBILE FOOTER*/
+
+.footer_nav {
+  position: fixed;
+  width: 100vw;
+  height: 10vh;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #044040;
+}
+
+.list {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  gap: 2em;
+}
+
+.item {
+  padding-right: 2em;
+  border-right: 1px solid #fff;
+}
+
+.item:last-child {
+  padding-right: 0;
+  border-right: none;
+}
+
+.item a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  transition: 0.4s;
+}
+
+.item a:hover{
+  color: #ffffff77;
+}
